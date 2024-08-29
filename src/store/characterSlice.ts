@@ -1,40 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-interface Character {
-  id: number;
-  name: string;
-  species: string;
-  status: string;
-  type: string;
-  gender: string;
-  image: string;
-}
-
-interface CharacterState {
-  characters: Character[];
-  loading: boolean;
-  error: string | null;
-  currentPage: number;
-}
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchCharacters } from "./characterThunks";
+import { CharacterState } from "@/types/types";
 
 const initialState: CharacterState = {
   characters: [],
   loading: false,
   error: null,
   currentPage: 1,
+  species: "",
+  status: "",
+  gender: "",
+  totalPages: 1,
 };
-
-export const fetchCharacters = createAsyncThunk(
-  "characters/fetchCharacters",
-  async (page: number) => {
-    const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`);
-    if (!response.ok) {
-      throw new Error("Response was not ok");
-    }
-    const data = await response.json();
-    return { results: data.results, page };
-  }
-);
 
 const characterSlice = createSlice({
   name: "characters",
@@ -42,6 +19,15 @@ const characterSlice = createSlice({
   reducers: {
     setPage: (state, action) => {
       state.currentPage = action.payload;
+    },
+    setSpecies: (state, action) => {
+      state.species = action.payload;
+    },
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
+    setGender: (state, action) => {
+      state.gender = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -54,6 +40,7 @@ const characterSlice = createSlice({
         state.loading = false;
         state.characters = action.payload.results;
         state.currentPage = action.payload.page;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchCharacters.rejected, (state, action) => {
         state.loading = false;
@@ -62,5 +49,5 @@ const characterSlice = createSlice({
   },
 });
 
-export const { setPage } = characterSlice.actions;
+export const { setPage, setSpecies, setStatus, setGender } = characterSlice.actions;
 export default characterSlice.reducer;

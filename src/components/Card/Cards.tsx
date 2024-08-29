@@ -2,12 +2,12 @@ import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 
-export default function Cards() {
+export default function Card() {
     const { characters } = useSelector((state: RootState) => state.characters);
     
     return (
         characters.map((character) => (
-            <div key={character.id} className="flex flex-col bg-gray-950 m-5 p-4 rounded-lg shadow-lg">
+            <div key={character.id} className="flex flex-col bg-gray-950 m-5 p-4 rounded-lg shadow-lg max-w-72">
               <Image 
                 src={character.image} 
                 alt={character.name} 

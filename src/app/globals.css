@@ -16,6 +16,10 @@
   }
 }
 
+html, body {
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
