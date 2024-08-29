@@ -31,8 +31,6 @@ export default function Home() {
     dispatch(setPage(newPage));
   };
 
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <main className="flex min-h-screen flex-col items-center mb-24 mt-14">
       <Image 
@@ -50,13 +48,29 @@ export default function Home() {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {loading ? 
-          <div className="fixed justify-self-center top-0">
+        {loading ? (
+          <div className="fixed justify-self-center top-10">
             <Loader />
-          </div> 
-          : <Cards />}
+          </div>
+        ) : error ? (
+          <div className="fixed justify-self-center top-2/4 text-red-500 text-xl font-bold">
+            <p>Error: {error}</p>
+            <p>Please try again later.</p>
+          </div>
+        ) : (
+          <Cards />
+        )}
       </div>
+
       <Pagination pageCount={totalPages} onPageChange={handlePageChange} />
+
+      <Image 
+        src="/rick-and-morty.png" 
+        alt="Rick and Morty photo" 
+        width={400} 
+        height={400} 
+        className="fixed -left-5 bottom-0 w-0 lg:w-72" 
+      />
     </main>
   );
 }
