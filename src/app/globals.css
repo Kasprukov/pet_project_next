@@ -26,6 +26,58 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+// Pagination
+
+.pagination .page-item:first-child,
+.pagination .page-item:last-child {
+  display: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  width: 40px;
+  max-width: 40px;
+  border: 1px solid #27AE60;
+  text-decoration: none;
+  color: #F1F2F9;
+  background-color: #0F1121;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.page-link:hover {
+  background-color: #323542;
+}
+
+.active .page-link {
+  background-color: #27AE60;
+  color: white;
+}
+
+// end Pagination
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

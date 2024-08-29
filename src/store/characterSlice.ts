@@ -14,37 +14,36 @@ interface CharacterState {
   characters: Character[];
   loading: boolean;
   error: string | null;
+  currentPage: number;
 }
 
 const initialState: CharacterState = {
   characters: [],
   loading: false,
   error: null,
+  currentPage: 1,
 };
 
-export const fetchCharacters = createAsyncThunk<Character[], number, { rejectValue: string }>(
+export const fetchCharacters = createAsyncThunk(
   "characters/fetchCharacters",
-  async () => {
-    const totalPages = 42;
-    const allCharacters: Character[] = [];
-
-    for (let page = 1; page <= totalPages; page++) {
-      const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`);
-      if (!response.ok) {
-        throw new Error("Помилка!");
-      }
-      const data = await response.json();
-      allCharacters.push(...data.results);
+  async (page: number) => {
+    const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${page}`);
+    if (!response.ok) {
+      throw new Error("Response was not ok");
     }
-
-    return allCharacters;
+    const data = await response.json();
+    return { results: data.results, page };
   }
 );
 
 const characterSlice = createSlice({
   name: "characters",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharacters.pending, (state) => {
@@ -53,13 +52,15 @@ const characterSlice = createSlice({
       })
       .addCase(fetchCharacters.fulfilled, (state, action) => {
         state.loading = false;
-        state.characters = action.payload;
+        state.characters = action.payload.results;
+        state.currentPage = action.payload.page;
       })
       .addCase(fetchCharacters.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string || "Не вдалося завантажити персонажів";
+        state.error = action.error.message || "Failed to fetch characters";
       });
   },
 });
 
+export const { setPage } = characterSlice.actions;
 export default characterSlice.reducer;
