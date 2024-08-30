@@ -2,6 +2,14 @@ export const speciesOptions = [
     { value: 'human', label: 'Human' },
     { value: 'alien', label: 'Alien' },
     { value: 'robot', label: 'Robot' },
+    { value: 'humanoid', label: 'Humanoid' },
+    { value: 'poopybutthole', label: 'Poopybutthole' },
+    { value: 'mythological', label: 'Mythological' },
+    { value: 'unknown', label: 'Unknown' },
+    { value: 'animal', label: 'Animal' },
+    { value: 'disease', label: 'Disease' },
+    { value: 'cronenberg', label: 'Cronenberg' },
+    { value: 'planet', label: 'Planet' },
   ];
   
 export const statusOptions = [
